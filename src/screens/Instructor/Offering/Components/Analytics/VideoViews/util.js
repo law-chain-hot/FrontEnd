@@ -36,7 +36,6 @@ export function parseCourseLogs(data, playlist, sortBy='count') {
             mediaList[mediaIdx].lastMonth += lastMonth
         })
     })
-
     return _.sortBy(mediaList, [sortBy]).slice().reverse()
 }
 

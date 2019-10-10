@@ -171,10 +171,10 @@ export class VideoViewsTable extends Component {
                             <Table.Cell>{index + 1}</Table.Cell>
                             <Table.Cell>{media.mediaName}</Table.Cell>
                             {/* <Table.Cell>{media.count}</Table.Cell> */}
-                            <Table.Cell>{media.lastHr}</Table.Cell>
-                            <Table.Cell>{media.last3days}</Table.Cell>
-                            <Table.Cell>{media.lastWeek}</Table.Cell>
-                            <Table.Cell>{media.lastMonth}</Table.Cell>
+                            <Table.Cell>{media.lastHr/4}</Table.Cell>
+                            <Table.Cell>{media.last3days/4}</Table.Cell>
+                            <Table.Cell>{media.lastWeek/4}</Table.Cell>
+                            <Table.Cell>{media.lastMonth/4}</Table.Cell>
                         </Table.Row>
                     )
                 }
