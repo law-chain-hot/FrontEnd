@@ -1,6 +1,7 @@
 import React from 'react';
 import {AnalyticTable} from './table'
 import ForAllCharts from './VideoViews'
+import Keywords from './Search'
 import { Tab } from 'semantic-ui-react'
 import './index.css';
 
@@ -18,7 +19,8 @@ export class Analytics extends React.Component {
     const panes = [
       { menuItem: 'Performance', render: () => <AnalyticTable offeringId={offeringId}/> },
       { menuItem: 'Charts', render: () => <ForAllCharts offeringId={offeringId} playlists={playlists} />},
-      // { menuItem: 'To be developed', render: () => <Tab.Pane>Tab 3 Content</Tab.Pane> },
+      { menuItem: 'Search Keywords', render: () => <Keywords offeringId={offeringId} /> },
+      { menuItem: 'To be developed', render: () => <Tab.Pane>Tab 3 Content</Tab.Pane> },
     ]
 
     return (

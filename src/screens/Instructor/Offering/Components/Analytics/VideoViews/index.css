@@ -50,6 +50,7 @@
     display: flex;
     justify-content: center;
 }
+
 .downwards .ui.secondary.pointing.menu .item {
     border-bottom: 2px solid rgb(227, 227, 227);
 }

@@ -10,6 +10,7 @@ import Papa from 'papaparse'
 var fileDownload = require('js-file-download')
 
 
+
 export default class ForAllCharts extends React.Component {
     constructor(props) {
         super(props)
@@ -82,7 +83,7 @@ export class VideoViewsTable extends Component {
         this.state = {
             column: null,
             direction: null,
-            page: 1
+            page: 1,
         }
     }
 
@@ -110,7 +111,7 @@ export class VideoViewsTable extends Component {
         fileDownload(csvStr, 'video-length.csv')
     }
 
-    handlePageClick = ({ activePage }) => this.setState({ page: activePage });
+    handlePageClick = activePage => this.setState({ page: activePage });
 
     render() {
         const { column, direction, page } = this.state
@@ -186,7 +187,7 @@ export class VideoViewsTable extends Component {
                     }
                     </Table.Body>
 
-                    {/* <Table.Footer>
+                    <Table.Footer>
                         <Table.Row>
                             <Table.HeaderCell colSpan='4'>
                             <Menu floated='right' pagination>
@@ -195,22 +196,26 @@ export class VideoViewsTable extends Component {
                                 </Menu.Item>
                                 <Menu.Item
                                     name="1"
-                                    active={activePage === "1"}
-                                    onClick={this.handlePageClick}
+                                    active={page === 1}
+                                    onClick={() => this.handlePageClick(1)}
                                     />
                                 <Menu.Item 
                                     name="2"
-                                    active={activePage === "2"}
+                                    active={page === 2}
+                                    onClick={() => this.handlePageClick(2)}
+                                    />
+                                <Menu.Item 
+                                    name="3"
+                                    active={page === 3}
                                     onClick={this.handlePageClick}
                                     />
-                                <Menu.Item as='a'>3</Menu.Item>
                                 <Menu.Item as='a' icon>
                                 <Icon name='chevron right' />
                                 </Menu.Item>
                             </Menu>
                             </Table.HeaderCell>
                         </Table.Row>
-                    </Table.Footer>   */}
+                    </Table.Footer>  
                 </Table>
                  {/* <Pagination
                     // boundaryRange={0}
