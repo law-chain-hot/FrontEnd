@@ -44,3 +44,9 @@
     align-items: center;
     border-bottom: 0;
 }
+
+.allouter{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}

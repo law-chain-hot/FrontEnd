@@ -4,7 +4,7 @@ import './index.css';
 import 'react-vis/dist/style.css';
 import { api } from 'utils'
 import { parseCourseLogsForMediaViewChart, parseCourseLogs } from './util'
-import { Tab, Table, Button } from 'semantic-ui-react'
+import { Tab, Table, Button, Menu, Icon, Pagination } from 'semantic-ui-react'
 import _ from 'lodash'
 import Papa from 'papaparse'
 var fileDownload = require('js-file-download')
@@ -76,14 +76,13 @@ function VideoViewsChart({ mediaViews }) {
     );
 }
 
-
-
 export class VideoViewsTable extends Component {
     constructor(props) {
         super(props)
         this.state = {
             column: null,
             direction: null,
+            page: 1
         }
     }
 
@@ -111,76 +110,121 @@ export class VideoViewsTable extends Component {
         fileDownload(csvStr, 'video-length.csv')
     }
 
-    render() {
-        const { column, direction } = this.state
-        const { mediaViews } = this.props
-        return (<div className = 'VideoViewTable1'>
-            <Button content="Download" onClick={this.onDownload} primary>
-            </Button>
-            <Table sortable celled unstackable>
-                <Table.Header>
-                    <Table.Row>
-                        <Table.HeaderCell collapsing>
-                            Index
-                        </Table.HeaderCell>
-        
-                        <Table.HeaderCell
-                            sorted={column === 'mediaName' ? direction : null}
-                            onClick={this.handleSort('mediaName')}
-                        >
-                            MediaName
-                        </Table.HeaderCell>
+    handlePageClick = ({ activePage }) => this.setState({ page: activePage });
 
-                        {/* <Table.HeaderCell
-                            sorted={column === 'count' ? direction : null}
-                            onClick={this.handleSort('count')}
-                        >
-                            Total Count
-                        </Table.HeaderCell> */}
-                        <Table.HeaderCell
-                            sorted={column === 'lastHr' ? direction : null}
-                            onClick={this.handleSort('lastHr')}
-                        >
-                            last 1 Hour(mins)
-                        </Table.HeaderCell>
-                        <Table.HeaderCell
-                            sorted={column === 'last3days' ? direction : null}
-                            onClick={this.handleSort('last3days')}
-                        >
-                            last 3 days(mins)
-                        </Table.HeaderCell>
-                        <Table.HeaderCell
-                            sorted={column === 'lastWeek' ? direction : null}
-                            onClick={this.handleSort('lastWeek')}
-                        >
-                            last week(mins)
-                        </Table.HeaderCell>
-                        <Table.HeaderCell
-                            sorted={column === 'lastMonth' ? direction : null}
-                            onClick={this.handleSort('lastMonth')}
-                        >
-                            last month(mins)
-                        </Table.HeaderCell>
-                    </Table.Row>
-                </Table.Header>
-                <Table.Body>
-                {
-                    // _.map(mediaViews, ({ ,,}) => (
-                    mediaViews.map(( media, index) => 
-                        <Table.Row key={media.mediaName}>
-                            <Table.Cell>{index + 1}</Table.Cell>
-                            <Table.Cell>{media.mediaName}</Table.Cell>
-                            {/* <Table.Cell>{media.count}</Table.Cell> */}
-                            <Table.Cell>{media.lastHr/4}</Table.Cell>
-                            <Table.Cell>{media.last3days/4}</Table.Cell>
-                            <Table.Cell>{media.lastWeek/4}</Table.Cell>
-                            <Table.Cell>{media.lastMonth/4}</Table.Cell>
+    render() {
+        const { column, direction, page } = this.state
+        const totalPages = this.items.length / itemsPerPage;
+        const { mediaViews } = this.props
+        return (
+        <div className = 'allouter'>
+            <div className = 'VideoViewTable1'>
+                <Button content="Download" onClick={this.onDownload} primary>
+                </Button>
+
+                <Table sortable celled unstackable>
+                    <Table.Header>
+                        <Table.Row>
+                            <Table.HeaderCell collapsing>
+                                Index
+                            </Table.HeaderCell>
+            
+                            <Table.HeaderCell
+                                sorted={column === 'mediaName' ? direction : null}
+                                onClick={this.handleSort('mediaName')}
+                            >
+                                MediaName
+                            </Table.HeaderCell>
+
+                            {/* <Table.HeaderCell
+                                sorted={column === 'count' ? direction : null}
+                                onClick={this.handleSort('count')}
+                            >
+                                Total Count
+                            </Table.HeaderCell> */}
+                            <Table.HeaderCell
+                                sorted={column === 'lastHr' ? direction : null}
+                                onClick={this.handleSort('lastHr')}
+                            >
+                                last 1 Hour(mins)
+                            </Table.HeaderCell>
+                            <Table.HeaderCell
+                                sorted={column === 'last3days' ? direction : null}
+                                onClick={this.handleSort('last3days')}
+                            >
+                                last 3 days(mins)
+                            </Table.HeaderCell>
+                            <Table.HeaderCell
+                                sorted={column === 'lastWeek' ? direction : null}
+                                onClick={this.handleSort('lastWeek')}
+                            >
+                                last week(mins)
+                            </Table.HeaderCell>
+                            <Table.HeaderCell
+                                sorted={column === 'lastMonth' ? direction : null}
+                                onClick={this.handleSort('lastMonth')}
+                            >
+                                last month(mins)
+                            </Table.HeaderCell>
                         </Table.Row>
-                    )
-                }
-                </Table.Body>
-            </Table>
+                    </Table.Header>
+
+                    <Table.Body>
+                    {
+                        // _.map(mediaViews, ({ ,,}) => (
+                        mediaViews.map(( media, index) => 
+                            <Table.Row key={media.mediaName}>
+                                <Table.Cell>{index + 1}</Table.Cell>
+                                <Table.Cell>{media.mediaName}</Table.Cell>
+                                {/* <Table.Cell>{media.count}</Table.Cell> */}
+                                <Table.Cell>{media.lastHr/4}</Table.Cell>
+                                <Table.Cell>{media.last3days/4}</Table.Cell>
+                                <Table.Cell>{media.lastWeek/4}</Table.Cell>
+                                <Table.Cell>{media.lastMonth/4}</Table.Cell>
+                            </Table.Row>
+                        )
+                    }
+                    </Table.Body>
+
+                    {/* <Table.Footer>
+                        <Table.Row>
+                            <Table.HeaderCell colSpan='4'>
+                            <Menu floated='right' pagination>
+                                <Menu.Item as='a' icon>
+                                <Icon name='chevron left' />
+                                </Menu.Item>
+                                <Menu.Item
+                                    name="1"
+                                    active={activePage === "1"}
+                                    onClick={this.handlePageClick}
+                                    />
+                                <Menu.Item 
+                                    name="2"
+                                    active={activePage === "2"}
+                                    onClick={this.handlePageClick}
+                                    />
+                                <Menu.Item as='a'>3</Menu.Item>
+                                <Menu.Item as='a' icon>
+                                <Icon name='chevron right' />
+                                </Menu.Item>
+                            </Menu>
+                            </Table.HeaderCell>
+                        </Table.Row>
+                    </Table.Footer>   */}
+                </Table>
+                 <Pagination
+                    // boundaryRange={0}
+                    defaultActivePage={1}
+                    // ellipsisItem={null}
+                    // firstItem={null}
+                    // lastItem={null}
+                    // siblingRange={1}
+                    totalPages={totalPages}
+                /> 
+            </div>
         </div>);
+
+          
     }
 }
 
