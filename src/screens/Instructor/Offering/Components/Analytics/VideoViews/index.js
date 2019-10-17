@@ -114,7 +114,7 @@ export class VideoViewsTable extends Component {
 
     render() {
         const { column, direction, page } = this.state
-        const totalPages = this.items.length / itemsPerPage;
+        //const totalPages = this.items.length / itemsPerPage;
         const { mediaViews } = this.props
         return (
         <div className = 'allouter'>
@@ -212,7 +212,7 @@ export class VideoViewsTable extends Component {
                         </Table.Row>
                     </Table.Footer>   */}
                 </Table>
-                 <Pagination
+                 {/* <Pagination
                     // boundaryRange={0}
                     defaultActivePage={1}
                     // ellipsisItem={null}
@@ -220,7 +220,7 @@ export class VideoViewsTable extends Component {
                     // lastItem={null}
                     // siblingRange={1}
                     totalPages={totalPages}
-                /> 
+                />  */}
             </div>
         </div>);
 
