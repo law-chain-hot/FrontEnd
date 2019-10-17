@@ -17,7 +17,8 @@ import { api, user, util } from 'utils'
 
 export class InstructorProfile extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
+    util.links.title('My Courses')
     this.state = {
       userInfo: {},
       userUni: '',
@@ -38,7 +39,7 @@ export class InstructorProfile extends React.Component {
   getCourseOfferingsByInstructorId = () => {
     api.getCourseOfferingsByInstructorId(user.userId())
       .then(response => {
-        console.log(response.data)
+        // console.log(response.data)
         this.setState({courseOfferings: response.data})
         api.contentLoaded()
       })
