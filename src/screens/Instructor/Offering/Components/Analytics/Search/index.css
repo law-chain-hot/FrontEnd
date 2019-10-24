@@ -1,3 +1,4 @@
+
 .searchTotal p {
     /* width: 40%; */
     font-size: 1.5em;
@@ -29,6 +30,21 @@
     border-bottom: 2px solid rgb(227, 227, 227);
 }
 
+
+.newchart{
+    /* justify-content: center; */
+    align-items: center;
+    flex-direction: column;
+    display: flex;
+}
+.searchTotal .ui.button.dropdown{
+    margin-top: 1em;
+    margin-bottom: 1em !important;
+}
+.searchTotal .svg{
+    margin-top: 1em;
+}
+/*
 .circles {
     display: flex,
 }
@@ -37,38 +53,63 @@
     height: 200px;
     align-items: flex-end;
     justify-content: center;
-    /* flex-direction: row; */
     display: flex;
 }
 
 .circle1{
     border-radius: 50%;
-    width: 150px;
-    height: 150px;
+    width: 160px;
+    height: 160px;
     text-align: center;
-    /* align-items: flex-start; */
     background-color: #4266a3b6;
+}
+.circle1 p1{
+    color: rgb(253, 253, 253);
+    font-size: 1.8em;
+}
+
+.circle1 p{
+    color: rgb(250, 250, 250);
+    padding-top: 30%;
 }
 
 
 .circle2{
     border-radius: 50%;
-    width: 120px;
-    height: 120px;
+    width: 135px;
+    height: 135px;
+    text-align: center;
     align-items: center;
     background-color: #66519196;
 }
+.circle2 p1{
+    font-size: 1.8em;
+    color: rgb(252, 252, 252);
+}
 .circle2 p{
-    color: aliceblue;
+    color: rgb(252, 252, 252);
+    padding-top: 30%;
 }
 
 .circle5{
     border-radius: 50%;
-    width: 60px;
-    height: 60px;
+    width: 90px;
+    height: 90px;
     align-items: center;
+    text-align: center;
     background-color: #a051959c;
 }
+.circle5 p1{
+    color: aliceblue;
+    font-size: 1.5em;
+}
+.circle5 p{
+    color: aliceblue;
+    padding-top: 30%;
+}
+
+
+
 
 
 
@@ -80,17 +121,42 @@
 
 .circle3{
     border-radius: 50%;
-    width: 100px;
-    height: 100px;
-    /* align-items: center; */
+    width: 123px;
+    height: 123px;
+    text-align: center;
     background-color: #d4508781;
     margin-left: 1cm;
 }
+.circle3 p1{
+    color: rgb(255, 255, 255);
+    font-size: 1.8em;
+    padding-top: 30%;
+}
+.circle3 p{
+    color: rgb(255, 255, 255);
+}
+*/
 
-.circle4{
+/* .circle4{
     border-radius: 50%;
-    width: 80px;
-    height: 80px;
+    width: 105px;
+    height: 105px;
     align-items: center;
+    text-align: center;
     background-color: #f95d6a80;
+}
+.circle4 p1{
+    color: rgb(250, 250, 250);
+    font-size: 1.5em;
+}
+.circle4 p{
+    color: rgb(250, 250, 250);
+    padding-top: 30%;
+} */
+
+
+
+.SearchOuter {
+    justify-content: center;
+    display: flex;
 }

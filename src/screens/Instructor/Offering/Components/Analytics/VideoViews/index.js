@@ -4,7 +4,7 @@ import './index.css';
 import 'react-vis/dist/style.css';
 import { api } from 'utils'
 import { parseCourseLogsForMediaViewChart, parseCourseLogs } from './util'
-import { Tab, Table, Button, Menu, Icon, Pagination } from 'semantic-ui-react'
+import { Tab, Table, Button, Menu, Icon, Pagination, Segment, Dimmer, Loader } from 'semantic-ui-react'
 import _ from 'lodash'
 import Papa from 'papaparse'
 var fileDownload = require('js-file-download')
@@ -64,6 +64,15 @@ function VideoViewsChart({ mediaViews }) {
         }));
     return (
         <div className="dora-chart">
+                { (mediaViews.length === 0)?
+                    <div>
+                        <Segment className = 'table_loader'>
+                        <Dimmer active inverted >
+                        <Loader inverted content='Loading' />
+                        </Dimmer>
+                        </Segment>
+                    </div>
+                :
             <div className="bar-chart">
                     <XYPlot height={600} width={600} yType="ordinal" margin={{left: 150, right: 60}} > 
                         <HorizontalGridLines />
@@ -72,7 +81,7 @@ function VideoViewsChart({ mediaViews }) {
                         <HorizontalBarSeries data={mediaViews} />
                         {/* <LabelSeries data={labelData} getLabel={d => d.x}/> */}
                     </XYPlot>
-            </div>
+            </div> }
         </div>
     );
 }
@@ -123,6 +132,15 @@ export class VideoViewsTable extends Component {
                 <Button content="Download" onClick={this.onDownload} primary>
                 </Button>
 
+                { (mediaViews.length === 0)?
+                    <div>
+                        <Segment className = 'table_loader'>
+                        <Dimmer active inverted >
+                        <Loader inverted content='Loading' />
+                        </Dimmer>
+                        </Segment>
+                    </div>
+                :
                 <Table sortable celled unstackable>
                     <Table.Header>
                         <Table.Row>
@@ -216,7 +234,7 @@ export class VideoViewsTable extends Component {
                             </Table.HeaderCell>
                         </Table.Row>
                     </Table.Footer>  
-                </Table>
+                </Table> }
                  {/* <Pagination
                     // boundaryRange={0}
                     defaultActivePage={1}
