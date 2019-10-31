@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom'
 import { Icon, Button } from 'semantic-ui-react'
 import Playlists from './Playlists'
 // Vars
+import { useCTContext } from 'components'
 import { api, util, handleData, user } from 'utils'
 import './index.css'
 
@@ -39,6 +40,8 @@ export function OfferingDetail({ id, history, location, state, starOffering, uns
     if (accessType !== 0 && !user.isLoggedIn()) user.login() 
   }
 
+  const { generalError } = useCTContext()
+
   /**
    * Get all offerings and complete offerings
    */
@@ -63,14 +66,22 @@ export function OfferingDetail({ id, history, location, state, starOffering, uns
             setOffering(() => data)
           })
         })
+        .catch(error => {
+          generalError({ header: "Couldn't load the offering." })
+        })
     }
     api.getPlaylistsByOfferingId(id) 
       .then( ({data}) => {
         // console.log('playlists', data)
         setPlaylists(() => data)
       })
-      .catch( () => {
-        setPlaylists(['need-signin'])
+      .catch(error => {
+        if (api.isAuthError(error)) {
+          setPlaylists(['need-signin'])
+        } else {
+          setPlaylists([])
+          generalError({ header: "Couldn't load the playlists." })
+        }
       })
     api.sendUserAction('selectcourse', {
       offeringId: id
@@ -87,13 +98,13 @@ export function OfferingDetail({ id, history, location, state, starOffering, uns
       const number = api.getFullNumber(offering.courses)
       if (handleData.isValidCourseNumber(number)) {
         setFullNumber(() => number)
-        setCourseName(() => offering.courses[0].courseName)
-        setDescription(() => offering.courses[0].description)
       }
     }
     if (offering.offering && offering.offering.termName) {
       setTermName(() => offering.offering.termName)
       setSectionName(() => offering.offering.sectionName)
+      setCourseName(() => offering.offering.courseName)
+      setDescription(() => offering.offering.description)
     }
     util.links.title(fullNumber+' '+termName+' '+sectionName)
   })

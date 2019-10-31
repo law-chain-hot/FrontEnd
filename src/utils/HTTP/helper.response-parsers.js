@@ -62,18 +62,32 @@ export const responseParsers = {
         }
       })
   },
+
+  // parseSingleOffering: function(rawOffering) {
+  //   const { offering, courses, term } = rawOffering
+  //     let { universityId } = term
+  //     let departmentIds = _.map(courses, 'departmentId')
+  //     parsedOfferings.push({
+  //       ...offering,
+  //       departmentIds,
+  //       universityId,
+  //       termName: term.name,
+  //       fullNumber: this.getFullNumber(courses),
+  //       isTestCourse: _.findIndex(courses, { courseNumber: '000' }) >= 0 && !user.isAdmin(),
+  //     })
+  // },
   
   parseOfferings: async function(rawOfferings) {
     const parsedOfferings = []
     for (let i = 0; i < rawOfferings.length; i++) {
       const { offering, courses, term } = rawOfferings[i]
-      let { courseName, description } = courses[0]
+      // let { courseName, description } = courses[0]
       let { universityId } = term
       let departmentIds = _.map(courses, 'departmentId')
       parsedOfferings.push({
         ...offering,
-        courseName, 
-        description, 
+        // courseName, 
+        // description, 
         departmentIds,
         universityId,
         termName: term.name,
@@ -99,16 +113,18 @@ export const responseParsers = {
       createdAt: '', 
       isTwoScreen: false, 
       videos: [], 
-      transcriptions: [] 
+      transcriptions: [],
+      isUnavailable: false,
     }
+    console.log(media)
     if (!media) return re
-    const { id, playlistId, jsonMetadata, sourceType, videos, transcriptions } = media
-    if (!id || !jsonMetadata || !videos) return re
+    const { id, playlistId, jsonMetadata, sourceType, video, transcriptions } = media
+    if (!id || !jsonMetadata) return re
     re.id = id
-    // re.videos = videos
     re.createdAt = jsonMetadata.createdAt
     re.playlistId = playlistId
-    re.isTwoScreen = videos.length && (videos[0].video2 || videos[0].video2Path)
+
+
     if (sourceType === 1) { // youtube
       re.mediaName = jsonMetadata.title
     } else if (sourceType === 0) { // echo360
@@ -123,21 +139,44 @@ export const responseParsers = {
       }
     }
 
-    videos.forEach( video => {
+
+    if (!video || !(video.video1Path || (video.video1 && video.video1.path))) {
+      re.isUnavailable = true
+    } else {
+      re.isTwoScreen = video.video2Path || (video.video2 && video.video2.path)
+      var baseUrl = api.baseUrl()
       re.videos.push({
-        srcPath1: `${api.baseUrl()}${video.video1Path || video.video1.path}`,
-        srcPath2: re.isTwoScreen ? `${api.baseUrl()}${video.video2Path || video.video2.path}` : null
+        srcPath1: `${baseUrl}${video.video1Path || video.video1.path}`,
+        srcPath2: re.isTwoScreen ? `${baseUrl}${video.video2Path || video.video2.path}` : null
       })
-    })
+    }
+
 
     transcriptions.forEach( trans => {
-      if (trans.file || trans.path) re.transcriptions.push({
-        id: trans.id,
-        language: trans.language,
-        src: `${api.baseUrl()}${trans.path || trans.file.path}`
-      })
+      if (trans.file || trans.path) {
+        re.transcriptions.push({
+          id: trans.id,
+          language: trans.language,
+          src: `${api.baseUrl()}${trans.path || trans.file.path}`
+        })
+      }
     })
     return re
+  },
+  /** 
+   * Returns the error status
+   */
+  parseError: function(error) {
+    console.log(JSON.stringify(error))
+    const { response } = error
+    if (!Boolean(response)) { // Server Error
+      return { status: 500 }
+    } 
+    return { status: response.status }
+  },
+  isAuthError: function(error) {
+    const { status } = this.parseError(error)
+    return status === 401 || status === 403
   },
   getValidURLFullNumber: function(fullNumber) {
     return fullNumber.replace(/\//g, '-')
