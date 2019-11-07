@@ -15,6 +15,7 @@ function playlistsToMediaList(playlists) {
                 lastWeek: 0,
                 lastMonth: 0,
                 count: 0,
+                sum: 0,
             })
         })
     })
@@ -34,20 +35,35 @@ export function parseCourseLogs(data, playlist, sortBy='count') {
             mediaList[mediaIdx].last3days += last3days
             mediaList[mediaIdx].lastWeek += lastWeek
             mediaList[mediaIdx].lastMonth += lastMonth
+            mediaList[mediaIdx].sum += 1
         })
     })
-    return _.sortBy(mediaList, [sortBy]).slice().reverse()
+    return _.sortBy(mediaList, [sortBy]).slice()
 }
 
 export function parseCourseLogsForMediaViewChart(data, playlist) {
     const parsedData = []
-    const mediaList = parseCourseLogs(data, playlist).slice(0, 20)
+    const mediaList = parseCourseLogs(data, playlist)
     mediaList.forEach( media => {
-        const { mediaName, count } = media
+        const { mediaName, count, id } = media
         parsedData.push({
-            y: mediaName,
-            x: Math.ceil(count/4)
+            mediaName: mediaName,
+            id: id,
+            count: count
         })
     })
     return parsedData
 }
+
+// export function parseCourseLogsForMediaViewChart(data, playlist) {
+//     const parsedData = []
+//     const mediaList = parseCourseLogs(data, playlist).slice(0, 20)
+//     mediaList.forEach( media => {
+//         const { mediaName, count } = media
+//         parsedData.push({
+//             y: mediaName,
+//             x: Math.ceil(count/4)
+//         })
+//     })
+//     return parsedData
+// }

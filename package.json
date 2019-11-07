@@ -25,6 +25,7 @@
     "react-bootstrap": "^1.0.0-beta.9",
     "react-bubble-chart": "^0.4.0",
     "react-calendar": "^2.19.0",
+    "react-charts": "^2.0.0-beta.4",
     "react-dates": "^20.2.5",
     "react-device-detect": "^1.7.5",
     "react-dom": "^16.8.6",

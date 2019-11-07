@@ -142,7 +142,7 @@ export class SearchChart extends Component{
 
         return (
             <div className = "newchart">
-                <Dropdown text='Top Search Keywords' button='true'>
+                <Dropdown text='Choose number of Keywords' button='true'>
                     <Dropdown.Menu>
                     <Dropdown.Item icon='circle outline' text='5' description='bubbles' onClick={this.handleClick(5)}/>
                     <Dropdown.Item icon='circle outline' text='10' description='bubbles' onClick={this.handleClick(10)}/>
