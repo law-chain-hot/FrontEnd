@@ -3,7 +3,12 @@ import _ from 'lodash'
 
 function playlistsToMediaList(playlists) {
     var mediaList = []
+    var temp = []
     playlists.forEach( playlist => {
+        // const {name} = api.parsePlaylists
+        // temp.push({
+            
+        // })
         playlist.medias.forEach(media => {
             const { id, mediaName } = api.parseMedia(media)
             mediaList.push({ 
@@ -22,6 +27,7 @@ function playlistsToMediaList(playlists) {
 
     return mediaList
 }
+
 
 export function parseCourseLogs(data, playlist, sortBy='count') {
     const mediaList = playlistsToMediaList(playlist)
